@@ -2,6 +2,7 @@ import { motion } from 'framer-motion'
 import { ArrowUp, Heart, Code, Zap, Database, Cpu, Globe, Shield } from 'lucide-react'
 import { FaWhatsapp, FaInstagram, FaLinkedin, FaTwitter, FaEnvelope, FaPhone } from 'react-icons/fa'
 import { createElement } from 'react'
+import { COMPANY_INFO, SOCIAL_LINKS } from '../config/constants'
 
 const Footer = () => {
   const scrollToTop = () => {
@@ -32,18 +33,18 @@ const Footer = () => {
   }
 
   const socialLinks = [
-    { icon: FaWhatsapp, href: 'https://wa.me/573001234567', color: 'hover:text-green-400' },
-    { icon: FaInstagram, href: '#', color: 'hover:text-gold-400' },
-    { icon: FaLinkedin, href: '#', color: 'hover:text-gold-400' },
-    { icon: FaTwitter, href: '#', color: 'hover:text-gold-400' }
+    { icon: FaWhatsapp, href: SOCIAL_LINKS.whatsapp, color: 'hover:text-green-400' },
+    { icon: FaInstagram, href: SOCIAL_LINKS.instagram, color: 'hover:text-gold-400' },
+    { icon: FaLinkedin, href: SOCIAL_LINKS.linkedin, color: 'hover:text-gold-400' },
+    { icon: FaTwitter, href: SOCIAL_LINKS.twitter, color: 'hover:text-gold-400' }
   ]
 
   return (
     <footer className="bg-gray-900 relative overflow-hidden">
       {/* Enhanced Background Elements */}
       <div className="absolute inset-0">
-        {/* Digital rain effect */}
-        {[...Array(50)].map((_, i) => (
+        {/* Optimized digital rain effect - reduced from 50 to 12 */}
+        {[...Array(12)].map((_, i) => (
           <motion.div
             key={i}
             className="absolute w-px bg-gradient-to-b from-transparent via-gold-400/20 to-transparent"
@@ -52,7 +53,7 @@ const Footer = () => {
               height: '300px',
             }}
             animate={{
-              y: [-300, window.innerHeight + 300],
+              y: [-300, 600], // Fixed value instead of window.innerHeight
               opacity: [0, 0.8, 0],
             }}
             transition={{
@@ -184,7 +185,7 @@ const Footer = () => {
                   whileHover={{ x: 3 }}
                 >
                   <motion.div 
-                    className="relative w-12 h-12 bg-gradient-to-br from-gold-500 to-gold-600 rounded-xl flex items-center justify-center overflow-hidden"
+                    className="relative w-12 h-12 bg-gradient-to-br from-gold-500/10 to-gold-600/10 rounded-xl flex items-center justify-center overflow-hidden"
                     whileHover={{ rotate: 5 }}
                   >
                     {/* Logo background effect */}
@@ -206,7 +207,11 @@ const Footer = () => {
                       transition={{ duration: 2, repeat: Infinity }}
                     />
                     
-                    <span className="relative z-10 text-white font-bold text-xl">J&C</span>
+                    <img 
+                      src="/logooo.png" 
+                      alt="J&C Studios Logo" 
+                      className="relative z-10 w-10 h-10 object-contain"
+                    />
                   </motion.div>
                   
                   <motion.span 
@@ -228,8 +233,7 @@ const Footer = () => {
                   className="text-gray-400 mb-6 leading-relaxed"
                   whileHover={{ x: 2 }}
                 >
-                  Creamos experiencias digitales excepcionales que impulsan el crecimiento de tu negocio. 
-                  Especialistas en diseño, desarrollo y estrategia digital.
+                  {COMPANY_INFO.description}
                 </motion.p>
 
                 <div className="space-y-3">
@@ -245,7 +249,7 @@ const Footer = () => {
                     >
                       <FaEnvelope className="w-4 h-4 mr-3 text-gold-400" />
                     </motion.div>
-                    <span>hola@jcstudios.com</span>
+                    <span>{COMPANY_INFO.email}</span>
                   </motion.div>
                   
                   <motion.div 
@@ -260,7 +264,7 @@ const Footer = () => {
                     >
                       <FaPhone className="w-4 h-4 mr-3 text-gold-400" />
                     </motion.div>
-                    <span>+57 (300) 123-4567</span>
+                    <span>{COMPANY_INFO.phone}</span>
                   </motion.div>
                 </div>
               </div>
@@ -433,7 +437,7 @@ const Footer = () => {
             <div className="flex flex-col md:flex-row justify-between items-center">
               <div className="flex flex-col md:flex-row items-center space-y-2 md:space-y-0 md:space-x-6 mb-4 md:mb-0">
                 <p className="text-gray-400 flex items-center">
-                  © 2025 J&C Studios. Hecho con <Heart className="w-4 h-4 mx-1 text-red-500" /> en Perú
+                  © {COMPANY_INFO.year} {COMPANY_INFO.name}. Hecho con <Heart className="w-4 h-4 mx-1 text-red-500" /> en Perú
                 </p>
                 <div className="flex space-x-6">
                   {footerLinks.legal.map((link) => (

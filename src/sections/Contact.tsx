@@ -2,6 +2,7 @@ import { motion } from 'framer-motion'
 import { useState, createElement } from 'react'
 import { Send, Phone, Mail, MapPin, MessageCircle, Cpu, Zap, Database, Code } from 'lucide-react'
 import { FaWhatsapp, FaInstagram, FaLinkedin, FaTwitter } from 'react-icons/fa'
+import { COMPANY_INFO, SOCIAL_LINKS } from '../config/constants'
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -29,14 +30,14 @@ const Contact = () => {
     {
       icon: Phone,
       title: 'Teléfono',
-      info: '+57 (300) 123-4567',
-      link: 'tel:+573001234567'
+      info: COMPANY_INFO.phone,
+      link: `tel:${COMPANY_INFO.phone.replace(/\s/g, '')}`
     },
     {
       icon: Mail,
       title: 'Email',
-      info: 'hola@jcstudios.com',
-      link: 'mailto:hola@jcstudios.com'
+      info: COMPANY_INFO.email,
+      link: `mailto:${COMPANY_INFO.email}`
     },
     {
       icon: MapPin,
@@ -645,7 +646,7 @@ const Contact = () => {
 
             {/* WhatsApp CTA */}
             <motion.a
-              href="https://wa.me/573001234567"
+              href={SOCIAL_LINKS.whatsapp}
               target="_blank"
               rel="noopener noreferrer"
               initial={{ opacity: 0, scale: 0.9 }}
@@ -769,9 +770,9 @@ const Contact = () => {
                 
                 <div className="flex justify-center space-x-4">
                   {[
-                    { icon: FaInstagram, href: '#', color: 'hover:text-gold-400' },
-                    { icon: FaLinkedin, href: '#', color: 'hover:text-gold-400' },
-                    { icon: FaTwitter, href: '#', color: 'hover:text-gold-400' },
+                    { icon: FaInstagram, href: SOCIAL_LINKS.instagram, color: 'hover:text-gold-400' },
+                    { icon: FaLinkedin, href: SOCIAL_LINKS.linkedin, color: 'hover:text-gold-400' },
+                    { icon: FaTwitter, href: SOCIAL_LINKS.twitter, color: 'hover:text-gold-400' },
                   ].map((social, index) => (
                     <motion.a
                       key={index}

@@ -87,27 +87,40 @@ const Navbar = () => {
       </div>
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16 lg:h-20">
-          {/* Logo */}
+          {/* Logo with tech effect */}
           <motion.div
+            className="flex items-center space-x-3 relative"
             whileHover={{ scale: 1.05 }}
-            className="relative flex items-center space-x-2"
+            transition={{ type: "spring", stiffness: 300 }}
           >
-            <motion.div 
-              className="relative w-10 h-10 bg-gradient-to-br from-gold-500 to-gold-600 rounded-lg flex items-center justify-center overflow-hidden"
-              whileHover={{ rotate: 5 }}
-            >
-              {/* Logo background effect - static */}
-              <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent" />
+            <div className="relative">
+              <motion.div
+                animate={{
+                  boxShadow: [
+                    '0 0 0 rgba(245, 158, 11, 0)',
+                    '0 0 20px rgba(245, 158, 11, 0.5)',
+                    '0 0 0 rgba(245, 158, 11, 0)'
+                  ]
+                }}
+                transition={{ duration: 3, repeat: Infinity }}
+                className="w-12 h-12 bg-gradient-to-br from-gold-400/10 to-gold-600/10 rounded-lg flex items-center justify-center overflow-hidden"
+              >
+                <img 
+                  src="/logooo.png" 
+                  alt="J&C Studios Logo" 
+                  className="w-10 h-10 object-contain"
+                />
+              </motion.div>
               
-              {/* Logo energy ring - static */}
-              <div className="absolute inset-0 rounded-lg border border-gold-300/40" />
-              
-              <span className="relative z-10 text-white font-bold text-xl">J&C</span>
-            </motion.div>
+              {/* Holographic glow */}
+              <div className="absolute inset-0 rounded-lg border border-gold-400/30" />
+            </div>
             
-            <span className="text-xl lg:text-2xl font-display font-bold text-white">
-              Studios
-            </span>
+            <div className="relative">
+              <span className="text-2xl font-bold bg-gradient-to-r from-gold-400 to-gold-300 bg-clip-text text-transparent">
+                J&C Studios
+              </span>
+            </div>
           </motion.div>
 
           {/* Desktop Navigation */}

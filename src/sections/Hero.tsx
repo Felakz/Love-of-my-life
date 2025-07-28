@@ -230,6 +230,58 @@ const Hero = () => {
             ))}
           </motion.div>
 
+          {/* Company Logo */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.8, delay: 0.1 }}
+            className="mb-8 flex justify-center"
+          >
+            <motion.div
+              animate={{
+                boxShadow: [
+                  '0 0 20px rgba(245, 158, 11, 0.3)',
+                  '0 0 40px rgba(245, 158, 11, 0.6)',
+                  '0 0 20px rgba(245, 158, 11, 0.3)'
+                ]
+              }}
+              transition={{ duration: 3, repeat: Infinity }}
+              className="relative w-24 h-24 md:w-32 md:h-32 bg-gradient-to-br from-gold-400/10 to-gold-600/10 rounded-2xl flex items-center justify-center overflow-hidden backdrop-blur-sm border border-gold-400/30"
+            >
+              {/* Logo background effects */}
+              <motion.div
+                animate={{
+                  rotate: [0, 360],
+                }}
+                transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+                className="absolute inset-0 bg-gradient-to-br from-gold-400/5 to-transparent"
+              />
+              
+              {/* Energy rings around logo */}
+              {[...Array(2)].map((_, i) => (
+                <motion.div
+                  key={i}
+                  animate={{
+                    scale: [1, 1.3, 1],
+                    opacity: [0.3, 0.7, 0.3],
+                  }}
+                  transition={{
+                    duration: 4,
+                    repeat: Infinity,
+                    delay: i * 2,
+                  }}
+                  className="absolute inset-0 border border-gold-400/20 rounded-2xl"
+                />
+              ))}
+              
+              <img 
+                src="/logooo.png" 
+                alt="J&C Studios Logo" 
+                className="relative z-10 w-20 h-20 md:w-28 md:h-28 object-contain"
+              />
+            </motion.div>
+          </motion.div>
+
           {/* Enhanced Main Title with multiple effects */}
           <motion.h1
             initial={{ opacity: 0, y: 30 }}
