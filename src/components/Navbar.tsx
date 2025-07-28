@@ -1,6 +1,7 @@
 import { useState, useEffect, createElement } from 'react'
 import { motion } from 'framer-motion'
 import { Menu, X, Code, Zap, Database, Cpu } from 'lucide-react'
+import { Link } from 'react-router-dom'
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false)
@@ -15,10 +16,10 @@ const Navbar = () => {
   }, [])
 
   const navItems = [
-    { name: 'Inicio', href: '#hero' },
-    { name: 'Servicios', href: '#services' },
-    { name: 'Portafolio', href: '#portfolio' },
-    { name: 'Contacto', href: '#contact' },
+    { name: 'Inicio', href: '/' },
+    { name: 'Servicios', href: '/servicios' },
+    { name: 'Portafolio', href: '/portafolio' },
+    { name: 'Contacto', href: '/contacto' },
   ]
 
   return (
@@ -88,110 +89,117 @@ const Navbar = () => {
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16 lg:h-20">
           {/* Logo with tech effect */}
-          <motion.div
-            className="flex items-center space-x-3 relative"
-            whileHover={{ scale: 1.05 }}
-            transition={{ type: "spring", stiffness: 300 }}
-          >
-            <div className="relative">
-              <motion.div
-                animate={{
-                  boxShadow: [
-                    '0 0 0 rgba(245, 158, 11, 0)',
-                    '0 0 20px rgba(245, 158, 11, 0.5)',
-                    '0 0 0 rgba(245, 158, 11, 0)'
-                  ]
-                }}
-                transition={{ duration: 3, repeat: Infinity }}
-                className="w-12 h-12 bg-gradient-to-br from-gold-400/10 to-gold-600/10 rounded-lg flex items-center justify-center overflow-hidden"
-              >
-                <img 
-                  src="/logooo.png" 
-                  alt="J&C Studios Logo" 
-                  className="w-10 h-10 object-contain"
-                />
-              </motion.div>
+          <Link to="/">
+            <motion.div
+              className="flex items-center space-x-3 relative"
+              whileHover={{ scale: 1.05 }}
+              transition={{ type: "spring", stiffness: 300 }}
+            >
+              <div className="relative">
+                <motion.div
+                  animate={{
+                    boxShadow: [
+                      '0 0 0 rgba(245, 158, 11, 0)',
+                      '0 0 20px rgba(245, 158, 11, 0.5)',
+                      '0 0 0 rgba(245, 158, 11, 0)'
+                    ]
+                  }}
+                  transition={{ duration: 3, repeat: Infinity }}
+                  className="w-12 h-12 bg-gradient-to-br from-gold-400/10 to-gold-600/10 rounded-lg flex items-center justify-center overflow-hidden"
+                >
+                  <img 
+                    src="/logooo.png" 
+                    alt="J&C Studios Logo" 
+                    className="w-10 h-10 object-contain"
+                  />
+                </motion.div>
+                
+                {/* Holographic glow */}
+                <div className="absolute inset-0 rounded-lg border border-gold-400/30" />
+              </div>
               
-              {/* Holographic glow */}
-              <div className="absolute inset-0 rounded-lg border border-gold-400/30" />
-            </div>
-            
-            <div className="relative">
-              <span className="text-2xl font-bold bg-gradient-to-r from-gold-400 to-gold-300 bg-clip-text text-transparent">
-                J&C Studios
-              </span>
-            </div>
-          </motion.div>
+              <div className="relative">
+                <span className="text-2xl font-bold bg-gradient-to-r from-gold-400 to-gold-300 bg-clip-text text-transparent">
+                  J&C Studios
+                </span>
+              </div>
+            </motion.div>
+          </Link>
 
           {/* Desktop Navigation */}
           <div className="hidden lg:flex items-center space-x-8">
             {navItems.map((item, index) => (
-              <motion.a
+              <motion.div
                 key={item.name}
-                href={item.href}
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.1 }}
                 whileHover={{ 
                   y: -2,
-                  textShadow: "0 0 8px rgba(245, 158, 11, 0.6)"
                 }}
-                className="relative text-gray-300 hover:text-gold-400 font-medium transition-all duration-300 group"
+                className="relative"
               >
-                {/* Nav item background effect */}
-                <motion.div
-                  className="absolute inset-0 bg-gradient-to-r from-gold-400/10 to-transparent opacity-0 rounded-lg -m-2 p-2"
-                  whileHover={{ opacity: 1 }}
-                  transition={{ duration: 0.3 }}
-                />
-                
-                {/* Nav item particles - static */}
-                <div className="absolute -top-1 -right-1 w-1 h-1 bg-gold-400/60 rounded-full opacity-0 group-hover:opacity-100" />
-                
-                <span className="relative z-10">{item.name}</span>
-                
-                {/* Enhanced underline effect - static */}
-                <motion.span 
-                  className="absolute left-0 bottom-0 h-0.5 bg-gradient-to-r from-gold-400 to-gold-500"
-                  initial={{ width: 0 }}
-                  whileHover={{ width: "100%" }}
-                  transition={{ duration: 0.3 }}
-                />
-                
-                {/* Energy pulse on hover - removed animation */}
-                <div className="absolute left-0 bottom-0 w-full h-px bg-gold-400/40 opacity-0 group-hover:opacity-100" />
-              </motion.a>
+                <Link
+                  to={item.href}
+                  className="relative text-gray-300 hover:text-gold-400 font-medium transition-all duration-300 group"
+                  style={{ textShadow: "0 0 8px rgba(245, 158, 11, 0.6)" }}
+                >
+                  {/* Nav item background effect */}
+                  <motion.div
+                    className="absolute inset-0 bg-gradient-to-r from-gold-400/10 to-transparent opacity-0 rounded-lg -m-2 p-2"
+                    whileHover={{ opacity: 1 }}
+                    transition={{ duration: 0.3 }}
+                  />
+                  
+                  {/* Nav item particles - static */}
+                  <div className="absolute -top-1 -right-1 w-1 h-1 bg-gold-400/60 rounded-full opacity-0 group-hover:opacity-100" />
+                  
+                  <span className="relative z-10">{item.name}</span>
+                  
+                  {/* Enhanced underline effect - static */}
+                  <motion.span 
+                    className="absolute left-0 bottom-0 h-0.5 bg-gradient-to-r from-gold-400 to-gold-500"
+                    initial={{ width: 0 }}
+                    whileHover={{ width: "100%" }}
+                    transition={{ duration: 0.3 }}
+                  />
+                  
+                  {/* Energy pulse on hover - removed animation */}
+                  <div className="absolute left-0 bottom-0 w-full h-px bg-gold-400/40 opacity-0 group-hover:opacity-100" />
+                </Link>
+              </motion.div>
             ))}
             
-            <motion.a
-              href="#contact"
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.4 }}
-              whileHover={{ 
-                scale: 1.05,
-                boxShadow: "0 0 20px rgba(245, 158, 11, 0.4)"
-              }}
-              whileTap={{ scale: 0.95 }}
-              className="relative bg-gradient-to-r from-gold-500 to-gold-600 text-white px-6 py-2 rounded-full font-medium hover:shadow-lg transition-all duration-300 overflow-hidden"
-            >
-              {/* CTA button effects - removed animation */}
-              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent opacity-0 group-hover:opacity-100" />
-              
-              {/* CTA button particles - static */}
-              {[...Array(2)].map((_, i) => (
-                <div
-                  key={i}
-                  className="absolute w-1 h-1 bg-white/60 rounded-full opacity-30"
-                  style={{
-                    left: `${30 + (i * 40)}%`,
-                    top: `${40}%`,
-                  }}
-                />
-              ))}
-              
-              <span className="relative z-10">Cotizar Proyecto</span>
-            </motion.a>
+            <Link to="/contacto">
+              <motion.div
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 0.4 }}
+                whileHover={{ 
+                  scale: 1.05,
+                  boxShadow: "0 0 20px rgba(245, 158, 11, 0.4)"
+                }}
+                whileTap={{ scale: 0.95 }}
+                className="relative bg-gradient-to-r from-gold-500 to-gold-600 text-white px-6 py-2 rounded-full font-medium hover:shadow-lg transition-all duration-300 overflow-hidden"
+              >
+                {/* CTA button effects - removed animation */}
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent opacity-0 group-hover:opacity-100" />
+                
+                {/* CTA button particles - static */}
+                {[...Array(2)].map((_, i) => (
+                  <div
+                    key={i}
+                    className="absolute w-1 h-1 bg-white/60 rounded-full opacity-30"
+                    style={{
+                      left: `${30 + (i * 40)}%`,
+                      top: `${40}%`,
+                    }}
+                  />
+                ))}
+                
+                <span className="relative z-10">Cotizar Proyecto</span>
+              </motion.div>
+            </Link>
           </div>
 
           {/* Mobile menu button */}
@@ -272,9 +280,8 @@ const Navbar = () => {
           
           <div className="relative z-10 px-2 pt-2 pb-3 space-y-1">
             {navItems.map((item, index) => (
-              <motion.a
+              <motion.div
                 key={item.name}
-                href={item.href}
                 initial={{ opacity: 0, x: -20 }}
                 animate={isOpen ? { opacity: 1, x: 0 } : { opacity: 0, x: -20 }}
                 transition={{ delay: index * 0.1 }}
@@ -282,36 +289,42 @@ const Navbar = () => {
                   x: 5,
                   backgroundColor: "rgba(245, 158, 11, 0.1)"
                 }}
-                className="relative block px-3 py-2 text-gray-300 hover:text-gold-400 font-medium transition-all duration-300 rounded-lg overflow-hidden"
-                onClick={() => setIsOpen(false)}
+                className="relative"
               >
-                {/* Mobile nav item hover effect - static */}
-                <div className="absolute left-0 top-0 w-1 h-full bg-gold-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                
-                {/* Mobile nav item particles - static */}
-                <div className="absolute right-2 top-1/2 transform -translate-y-1/2 w-1 h-1 bg-gold-400/60 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                
-                <span className="relative z-10">{item.name}</span>
-              </motion.a>
+                <Link
+                  to={item.href}
+                  className="block px-3 py-2 text-gray-300 hover:text-gold-400 font-medium transition-all duration-300 rounded-lg overflow-hidden"
+                  onClick={() => setIsOpen(false)}
+                >
+                  {/* Mobile nav item hover effect - static */}
+                  <div className="absolute left-0 top-0 w-1 h-full bg-gold-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                  
+                  {/* Mobile nav item particles - static */}
+                  <div className="absolute right-2 top-1/2 transform -translate-y-1/2 w-1 h-1 bg-gold-400/60 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                  
+                  <span className="relative z-10">{item.name}</span>
+                </Link>
+              </motion.div>
             ))}
             
-            <motion.a
-              href="#contact"
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={isOpen ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.9 }}
-              transition={{ delay: 0.4 }}
-              whileHover={{ 
-                scale: 1.02,
-                boxShadow: "0 5px 15px rgba(245, 158, 11, 0.3)"
-              }}
-              className="relative block mx-3 mt-4 bg-gradient-to-r from-gold-500 to-gold-600 text-white px-6 py-2 rounded-full font-medium text-center overflow-hidden"
-              onClick={() => setIsOpen(false)}
-            >
-              {/* Mobile CTA background effect - static */}
-              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300" />
-              
-              <span className="relative z-10">Cotizar Proyecto</span>
-            </motion.a>
+            <Link to="/contacto">
+              <motion.div
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={isOpen ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.9 }}
+                transition={{ delay: 0.4 }}
+                whileHover={{ 
+                  scale: 1.02,
+                  boxShadow: "0 5px 15px rgba(245, 158, 11, 0.3)"
+                }}
+                className="block mx-3 mt-4 bg-gradient-to-r from-gold-500 to-gold-600 text-white px-6 py-2 rounded-full font-medium text-center overflow-hidden"
+                onClick={() => setIsOpen(false)}
+              >
+                {/* Mobile CTA background effect - static */}
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300" />
+                
+                <span className="relative z-10">Cotizar Proyecto</span>
+              </motion.div>
+            </Link>
           </div>
         </motion.div>
       </div>
