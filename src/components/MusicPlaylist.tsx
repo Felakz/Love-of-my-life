@@ -86,8 +86,26 @@ const MusicPlaylist = () => {
         audioRef.current.play()
       }
     } else {
-      // Ir a la siguiente canción
-      nextSong()
+      // Ir a la siguiente canción automáticamente
+      const wasPlaying = isPlaying
+      let nextIndex
+      
+      if (isShuffled) {
+        nextIndex = Math.floor(Math.random() * playlist.length)
+      } else {
+        nextIndex = (currentSong + 1) % playlist.length
+      }
+      
+      setCurrentSong(nextIndex)
+      
+      // Continuar reproduciendo automáticamente
+      if (wasPlaying) {
+        setTimeout(() => {
+          if (audioRef.current) {
+            audioRef.current.play()
+          }
+        }, 200)
+      }
     }
   }
 
