@@ -1,8 +1,10 @@
 import { motion } from 'framer-motion'
 import { useState, createElement } from 'react'
-import { Send, Phone, Mail, MapPin, MessageCircle, Cpu, Zap, Database, Code } from 'lucide-react'
+import { Send, Phone, Mail, MapPin, MessageCircle, Cpu, Zap, Database, Code, CheckCircle, AlertCircle, Copy } from 'lucide-react'
 import { FaWhatsapp, FaInstagram, FaLinkedin, FaTwitter } from 'react-icons/fa'
 import { COMPANY_INFO, SOCIAL_LINKS } from '../config/constants'
+import { EMAILJS_CONFIG } from '../config/emailjs'
+import emailjs from '@emailjs/browser'
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -12,6 +14,9 @@ const Contact = () => {
     service: '',
     message: ''
   })
+  
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error' | 'copied'>('idle')
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     setFormData({
@@ -20,10 +25,114 @@ const Contact = () => {
     })
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const copyToClipboard = async (text: string) => {
+    try {
+      await navigator.clipboard.writeText(text)
+      return true
+    } catch (err) {
+      // Fallback para navegadores que no soporten clipboard API
+      const textArea = document.createElement('textarea')
+      textArea.value = text
+      document.body.appendChild(textArea)
+      textArea.select()
+      document.execCommand('copy')
+      document.body.removeChild(textArea)
+      return true
+    }
+  }
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    // Aquí iría la lógica para enviar el formulario
-    console.log('Formulario enviado:', formData)
+    setIsSubmitting(true)
+    setSubmitStatus('idle')
+    
+    try {
+      // Verificar si EmailJS está configurado
+      if (EMAILJS_CONFIG.SERVICE_ID === 'YOUR_SERVICE_ID' || 
+          EMAILJS_CONFIG.TEMPLATE_ID === 'YOUR_TEMPLATE_ID' || 
+          EMAILJS_CONFIG.PUBLIC_KEY === 'YOUR_PUBLIC_KEY') {
+        
+        // Crear mensaje para copiar al portapapeles
+        const emailContent = `Para: ${COMPANY_INFO.email}
+Asunto: Contacto J&C Studios - ${formData.name}
+
+Hola!
+
+Mi nombre es ${formData.name} y me interesa contactar con J&C Studios.
+
+Email: ${formData.email}
+${formData.company ? `Empresa: ${formData.company}` : ''}
+${formData.service ? `Servicio: ${formData.service}` : ''}
+
+Mensaje: ${formData.message}
+
+Saludos!`
+        
+        // Copiar al portapapeles
+        const copied = await copyToClipboard(emailContent)
+        if (copied) {
+          setSubmitStatus('copied')
+          setFormData({ name: '', email: '', company: '', service: '', message: '' })
+          
+          // También intentar abrir el cliente de email con un mensaje más corto
+          const shortSubject = `Contacto - ${formData.name}`
+          const shortBody = `Ver mensaje copiado en portapapeles`
+          const mailtoUrl = `mailto:${COMPANY_INFO.email}?subject=${encodeURIComponent(shortSubject)}&body=${encodeURIComponent(shortBody)}`
+          window.open(mailtoUrl, '_blank')
+        }
+        return
+      }
+
+      // Configuración de EmailJS (cuando esté configurado)
+      const templateParams = {
+        from_name: formData.name,
+        from_email: formData.email,
+        company: formData.company || 'No especificada',
+        service: formData.service || 'No especificado',
+        message: formData.message,
+        to_email: COMPANY_INFO.email
+      }
+
+      // Enviar email usando EmailJS
+      await emailjs.send(
+        EMAILJS_CONFIG.SERVICE_ID,
+        EMAILJS_CONFIG.TEMPLATE_ID,
+        templateParams,
+        EMAILJS_CONFIG.PUBLIC_KEY
+      )
+      
+      setSubmitStatus('success')
+      setFormData({ name: '', email: '', company: '', service: '', message: '' })
+    } catch (error) {
+      console.error('Error al enviar el formulario:', error)
+      
+      // Método de respaldo en caso de error - copiar al portapapeles
+      const emailContent = `Para: ${COMPANY_INFO.email}
+Asunto: Contacto J&C Studios - ${formData.name}
+
+Hola!
+
+Mi nombre es ${formData.name} y me interesa contactar con J&C Studios.
+
+Email: ${formData.email}
+${formData.company ? `Empresa: ${formData.company}` : ''}
+${formData.service ? `Servicio: ${formData.service}` : ''}
+
+Mensaje: ${formData.message}
+
+Saludos!`
+      
+      const copied = await copyToClipboard(emailContent)
+      if (copied) {
+        setSubmitStatus('copied')
+      } else {
+        setSubmitStatus('error')
+      }
+    } finally {
+      setIsSubmitting(false)
+      // Resetear estado después de 5 segundos
+      setTimeout(() => setSubmitStatus('idle'), 5000)
+    }
   }
 
   const contactInfo = [
@@ -57,7 +166,7 @@ const Contact = () => {
   ]
 
   return (
-    <section id="contact" className="py-20 bg-gradient-to-br from-gray-900 via-gray-800 to-black relative overflow-hidden">
+    <section id="contact" className="py-20 bg-gray-900 relative overflow-hidden">
       {/* Enhanced Background Elements */}
       <div className="absolute inset-0">
         {/* Optimized digital rain effect - reduced from 40 to 20 */}
@@ -472,15 +581,26 @@ const Contact = () => {
 
               <motion.button
                 type="submit"
+                disabled={isSubmitting}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.6 }}
                 whileHover={{ 
-                  scale: 1.02,
-                  boxShadow: "0 0 30px rgba(245, 158, 11, 0.6)"
+                  scale: isSubmitting ? 1 : 1.02,
+                  boxShadow: isSubmitting ? "0 0 30px rgba(245, 158, 11, 0.3)" : "0 0 30px rgba(245, 158, 11, 0.6)"
                 }}
-                whileTap={{ scale: 0.98 }}
-                className="relative w-full bg-gradient-to-r from-gold-500 to-gold-600 text-white py-4 rounded-xl font-semibold text-lg flex items-center justify-center shadow-xl hover:shadow-2xl transition-all duration-300 overflow-hidden"
+                whileTap={{ scale: isSubmitting ? 1 : 0.98 }}
+                className={`relative w-full py-4 rounded-xl font-semibold text-lg flex items-center justify-center shadow-xl hover:shadow-2xl transition-all duration-300 overflow-hidden ${
+                  submitStatus === 'success' 
+                    ? 'bg-gradient-to-r from-green-500 to-green-600 text-white' 
+                    : submitStatus === 'copied'
+                    ? 'bg-gradient-to-r from-blue-500 to-blue-600 text-white'
+                    : submitStatus === 'error'
+                    ? 'bg-gradient-to-r from-red-500 to-red-600 text-white'
+                    : isSubmitting
+                    ? 'bg-gradient-to-r from-gold-400 to-gold-500 text-white cursor-not-allowed'
+                    : 'bg-gradient-to-r from-gold-500 to-gold-600 text-white'
+                }`}
               >
                 {/* Button energy effect */}
                 <motion.div
@@ -491,8 +611,8 @@ const Contact = () => {
                   transition={{ duration: 2, repeat: Infinity, repeatDelay: 1 }}
                 />
                 
-                {/* Button particles */}
-                {[...Array(8)].map((_, i) => (
+                {/* Status-based particles */}
+                {submitStatus === 'success' && [...Array(8)].map((_, i) => (
                   <motion.div
                     key={i}
                     className="absolute w-1 h-1 bg-white/60 rounded-full"
@@ -503,27 +623,117 @@ const Contact = () => {
                     animate={{
                       scale: [0, 1, 0],
                       opacity: [0, 1, 0],
+                      y: [0, -20, 0],
                     }}
-                    transition={{ duration: 2, repeat: Infinity, delay: i * 0.25 }}
+                    transition={{ duration: 1, delay: i * 0.1 }}
+                  />
+                ))}
+                
+                {submitStatus === 'copied' && [...Array(6)].map((_, i) => (
+                  <motion.div
+                    key={i}
+                    className="absolute w-1 h-1 bg-blue-200 rounded-full"
+                    style={{
+                      left: `${15 + (i * 12)}%`,
+                      top: `${25 + (i % 2) * 50}%`,
+                    }}
+                    animate={{
+                      scale: [0, 1.2, 0],
+                      opacity: [0, 1, 0],
+                      rotate: [0, 180, 360],
+                    }}
+                    transition={{ duration: 1.2, delay: i * 0.15 }}
                   />
                 ))}
                 
                 <motion.div
                   className="relative z-10 flex items-center"
-                  whileHover={{ x: 2 }}
+                  whileHover={{ x: isSubmitting ? 0 : 2 }}
                 >
-                  <motion.div
-                    animate={{
-                      rotate: [0, 360],
-                    }}
-                    transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
-                  >
-                    <Send className="w-5 h-5 mr-2" />
-                  </motion.div>
-                  Enviar Mensaje
+                  {submitStatus === 'success' ? (
+                    <>
+                      <CheckCircle className="w-5 h-5 mr-2" />
+                      ¡Mensaje Enviado!
+                    </>
+                  ) : submitStatus === 'copied' ? (
+                    <>
+                      <Copy className="w-5 h-5 mr-2" />
+                      ¡Mensaje Copiado!
+                    </>
+                  ) : submitStatus === 'error' ? (
+                    <>
+                      <AlertCircle className="w-5 h-5 mr-2" />
+                      Error al enviar
+                    </>
+                  ) : isSubmitting ? (
+                    <>
+                      <motion.div
+                        animate={{ rotate: 360 }}
+                        transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                        className="w-5 h-5 border-2 border-white border-t-transparent rounded-full mr-2"
+                      />
+                      Enviando...
+                    </>
+                  ) : (
+                    <>
+                      <motion.div
+                        animate={{
+                          rotate: [0, 360],
+                        }}
+                        transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+                      >
+                        <Send className="w-5 h-5 mr-2" />
+                      </motion.div>
+                      Enviar Mensaje
+                    </>
+                  )}
                 </motion.div>
               </motion.button>
-            </form>
+                          </form>
+
+              {/* Status Message */}
+              {submitStatus !== 'idle' && (
+                <motion.div
+                  initial={{ opacity: 0, y: 20, scale: 0.9 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, y: -20, scale: 0.9 }}
+                  className={`mt-4 p-4 rounded-xl border flex items-center ${
+                    submitStatus === 'success'
+                      ? 'bg-green-500/10 border-green-500/30 text-green-300'
+                      : 'bg-red-500/10 border-red-500/30 text-red-300'
+                  }`}
+                >
+                  {submitStatus === 'success' ? (
+                    <>
+                      <CheckCircle className="w-5 h-5 mr-3 flex-shrink-0" />
+                      <div>
+                        <p className="font-semibold">¡Mensaje enviado exitosamente!</p>
+                        <p className="text-sm opacity-80">Te responderemos pronto a tu correo electrónico.</p>
+                      </div>
+                    </>
+                  ) : submitStatus === 'copied' ? (
+                    <>
+                      <Copy className="w-5 h-5 mr-3 flex-shrink-0" />
+                      <div>
+                        <p className="font-semibold">¡Mensaje copiado al portapapeles!</p>
+                        <p className="text-sm opacity-80">
+                          Se abrió tu cliente de email. Pega el mensaje y envíalo.
+                        </p>
+                      </div>
+                    </>
+                  ) : (
+                    <>
+                      <AlertCircle className="w-5 h-5 mr-3 flex-shrink-0" />
+                      <div>
+                        <p className="font-semibold">Error al enviar el mensaje</p>
+                        <p className="text-sm opacity-80">
+                          Por favor, intenta nuevamente o contáctanos directamente por WhatsApp.
+                        </p>
+                      </div>
+                    </>
+                  )}
+                </motion.div>
+              )}
             </div>
           </motion.div>
 

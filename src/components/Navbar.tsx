@@ -1,7 +1,6 @@
 import { useState, useEffect, createElement } from 'react'
 import { motion } from 'framer-motion'
-import { Menu, X, Code, Zap, Database, Cpu } from 'lucide-react'
-import { Link } from 'react-router-dom'
+import { Menu, X, Heart, Star, Music } from 'lucide-react'
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false)
@@ -16,115 +15,137 @@ const Navbar = () => {
   }, [])
 
   const navItems = [
-    { name: 'Inicio', href: '/' },
-    { name: 'Servicios', href: '/servicios' },
-    { name: 'Portafolio', href: '/portafolio' },
-    { name: 'Contacto', href: '/contacto' },
+    { name: 'Inicio', href: '#hero' },
+    { name: 'Carta de Amor', href: '#carta' },
+    { name: 'Nuestros Recuerdos', href: '#galeria' },
   ]
+
+  const scrollToSection = (href: string) => {
+    const element = document.querySelector(href)
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' })
+    }
+    setIsOpen(false)
+  }
 
   return (
     <motion.nav
       initial={{ y: -100 }}
       animate={{ y: 0 }}
       transition={{ duration: 0.6 }}
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 relative overflow-hidden ${
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 overflow-hidden ${
         isScrolled
-          ? 'bg-gray-900/90 backdrop-blur-lg shadow-2xl border-b border-gold-500/20'
-          : 'bg-transparent'
+          ? 'bg-gradient-to-r from-rose-900/95 to-pink-900/95 backdrop-blur-md shadow-2xl border-b border-rose-400/20'
+          : 'bg-gradient-to-r from-rose-900/80 to-pink-900/80 backdrop-blur-sm'
       }`}
     >
-      {/* Navbar background effects */}
+      {/* Romantic background effects */}
       <div className="absolute inset-0 pointer-events-none">
-        {/* Optimized digital particles - reduced from 12 to 6 */}
-        {[...Array(6)].map((_, i) => (
+        {/* Floating hearts */}
+        {[...Array(8)].map((_, i) => (
           <motion.div
             key={i}
-            className="absolute w-px h-8 bg-gradient-to-b from-transparent via-gold-400/20 to-transparent"
+            className="absolute text-rose-300/20"
             style={{
-              left: `${20 + i * 15}%`,
-            }}
-            animate={{
-              y: [-20, 100, -20],
-              opacity: [0, 0.6, 0],
-            }}
-            transition={{
-              duration: 4 + i * 0.5,
-              repeat: Infinity,
-              delay: i * 0.8,
-              ease: "linear"
-            }}
-          />
-        ))}
-
-        {/* Scanning beam */}
-        <motion.div
-          className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-gold-400/40 to-transparent"
-          animate={{
-            x: ["-100%", "100%"],
-            opacity: [0, 1, 0],
-          }}
-          transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
-        />
-
-        {/* Optimized floating tech icons - reduced animation complexity */}
-        {[Code, Zap].map((Icon, i) => (
-          <motion.div
-            key={i}
-            className="absolute text-gold-400/10"
-            style={{
-              left: `${30 + (i * 40)}%`,
+              left: `${10 + i * 12}%`,
               top: '50%',
               transform: 'translateY(-50%)',
             }}
             animate={{
-              y: [-1, 1, -1],
-              opacity: [0.1, 0.2, 0.1],
+              y: [-2, 2, -2],
+              opacity: [0.2, 0.5, 0.2],
+              scale: [0.8, 1.2, 0.8],
             }}
-            transition={{ duration: 4 + i * 2, repeat: Infinity }}
+            transition={{
+              duration: 3 + i * 0.5,
+              repeat: Infinity,
+              delay: i * 0.3,
+            }}
           >
-            {createElement(Icon, { size: 16 })}
+            <Heart className="w-3 h-3 fill-current" />
+          </motion.div>
+        ))}
+
+        {/* Romantic scanning beam */}
+        <motion.div
+          className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-rose-400/40 to-transparent"
+          animate={{
+            x: ["-100%", "100%"],
+            opacity: [0, 1, 0],
+          }}
+          transition={{ duration: 6, repeat: Infinity, ease: "linear" }}
+        />
+
+        {/* Sparkle effects */}
+        {[Star, Music].map((Icon, i) => (
+          <motion.div
+            key={i}
+            className="absolute text-rose-400/10"
+            style={{
+              left: `${25 + (i * 50)}%`,
+              top: '50%',
+              transform: 'translateY(-50%)',
+            }}
+            animate={{
+              rotate: [0, 360, 0],
+              opacity: [0.1, 0.3, 0.1],
+            }}
+            transition={{ duration: 8 + i * 2, repeat: Infinity }}
+          >
+            {createElement(Icon, { size: 14 })}
           </motion.div>
         ))}
       </div>
+
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16 lg:h-20">
-          {/* Logo with tech effect */}
-          <Link to="/">
-            <motion.div
-              className="flex items-center space-x-3 relative"
-              whileHover={{ scale: 1.05 }}
-              transition={{ type: "spring", stiffness: 300 }}
-            >
-              <div className="relative">
+          {/* Logo romántico */}
+          <motion.div
+            className="flex items-center space-x-3 relative cursor-pointer"
+            whileHover={{ scale: 1.05 }}
+            transition={{ type: "spring", stiffness: 300 }}
+            onClick={() => scrollToSection('#hero')}
+          >
+            <div className="relative">
+              <motion.div
+                animate={{
+                  boxShadow: [
+                    '0 0 0 rgba(244, 114, 182, 0)',
+                    '0 0 20px rgba(244, 114, 182, 0.5)',
+                    '0 0 0 rgba(244, 114, 182, 0)'
+                  ]
+                }}
+                transition={{ duration: 3, repeat: Infinity }}
+                className="w-12 h-12 bg-gradient-to-br from-rose-400/20 to-pink-600/20 rounded-full flex items-center justify-center overflow-hidden border border-rose-300/30"
+              >
                 <motion.div
                   animate={{
-                    boxShadow: [
-                      '0 0 0 rgba(245, 158, 11, 0)',
-                      '0 0 20px rgba(245, 158, 11, 0.5)',
-                      '0 0 0 rgba(245, 158, 11, 0)'
-                    ]
+                    scale: [1, 1.1, 1],
+                    rotate: [0, 360, 0],
                   }}
-                  transition={{ duration: 3, repeat: Infinity }}
-                  className="w-12 h-12 bg-gradient-to-br from-gold-400/10 to-gold-600/10 rounded-lg flex items-center justify-center overflow-hidden"
+                  transition={{ duration: 4, repeat: Infinity }}
                 >
-                  <img 
-                    src="/logooo.png" 
-                    alt="J&C Studios Logo" 
-                    className="w-10 h-10 object-contain"
-                  />
+                  <Heart className="w-6 h-6 text-rose-400 fill-rose-400" />
                 </motion.div>
-                
-                {/* Holographic glow */}
-                <div className="absolute inset-0 rounded-lg border border-gold-400/30" />
-              </div>
-              
-              <div className="relative">
-                <span className="text-2xl font-bold bg-gradient-to-r from-gold-400 to-gold-300 bg-clip-text text-transparent">
-                  J&C Studios
-                </span>
-              </div>
-            </motion.div>
-          </Link>
+              </motion.div>
+            </div>
+            
+            <div className="relative">
+              <motion.span 
+                className="text-2xl font-bold bg-gradient-to-r from-rose-300 to-pink-300 bg-clip-text text-transparent"
+                animate={{
+                  textShadow: [
+                    "0 0 10px rgba(244, 114, 182, 0.3)",
+                    "0 0 20px rgba(244, 114, 182, 0.6)",
+                    "0 0 10px rgba(244, 114, 182, 0.3)"
+                  ]
+                }}
+                transition={{ duration: 3, repeat: Infinity }}
+              >
+                Nuestro Amor
+              </motion.span>
+            </div>
+          </motion.div>
 
           {/* Desktop Navigation */}
           <div className="hidden lg:flex items-center space-x-8">
@@ -134,72 +155,42 @@ const Navbar = () => {
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.1 }}
-                whileHover={{ 
-                  y: -2,
-                }}
+                whileHover={{ y: -2 }}
                 className="relative"
               >
-                <Link
-                  to={item.href}
-                  className="relative text-gray-300 hover:text-gold-400 font-medium transition-all duration-300 group"
-                  style={{ textShadow: "0 0 8px rgba(245, 158, 11, 0.6)" }}
+                <button
+                  onClick={() => scrollToSection(item.href)}
+                  className="relative text-rose-200 hover:text-rose-300 font-medium transition-all duration-300 group"
                 >
-                  {/* Nav item background effect */}
                   <motion.div
-                    className="absolute inset-0 bg-gradient-to-r from-gold-400/10 to-transparent opacity-0 rounded-lg -m-2 p-2"
+                    className="absolute inset-0 bg-gradient-to-r from-rose-400/10 to-transparent opacity-0 rounded-lg -m-2 p-2"
                     whileHover={{ opacity: 1 }}
                     transition={{ duration: 0.3 }}
                   />
                   
-                  {/* Nav item particles - static */}
-                  <div className="absolute -top-1 -right-1 w-1 h-1 bg-gold-400/60 rounded-full opacity-0 group-hover:opacity-100" />
-                  
                   <span className="relative z-10">{item.name}</span>
                   
-                  {/* Enhanced underline effect - static */}
                   <motion.span 
-                    className="absolute left-0 bottom-0 h-0.5 bg-gradient-to-r from-gold-400 to-gold-500"
+                    className="absolute left-0 bottom-0 h-0.5 bg-gradient-to-r from-rose-400 to-pink-500"
                     initial={{ width: 0 }}
                     whileHover={{ width: "100%" }}
                     transition={{ duration: 0.3 }}
                   />
-                  
-                  {/* Energy pulse on hover - removed animation */}
-                  <div className="absolute left-0 bottom-0 w-full h-px bg-gold-400/40 opacity-0 group-hover:opacity-100" />
-                </Link>
+
+                  {/* Floating heart on hover */}
+                  <motion.div
+                    className="absolute -top-2 -right-2 opacity-0 group-hover:opacity-100"
+                    animate={{
+                      y: [0, -5, 0],
+                      scale: [0.8, 1.2, 0.8],
+                    }}
+                    transition={{ duration: 2, repeat: Infinity }}
+                  >
+                    <Heart className="w-3 h-3 text-rose-400 fill-rose-400" />
+                  </motion.div>
+                </button>
               </motion.div>
             ))}
-            
-            <Link to="/contacto">
-              <motion.div
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: 0.4 }}
-                whileHover={{ 
-                  scale: 1.05,
-                  boxShadow: "0 0 20px rgba(245, 158, 11, 0.4)"
-                }}
-                whileTap={{ scale: 0.95 }}
-                className="relative bg-gradient-to-r from-gold-500 to-gold-600 text-white px-6 py-2 rounded-full font-medium hover:shadow-lg transition-all duration-300 overflow-hidden"
-              >
-                {/* CTA button effects - removed animation */}
-                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent opacity-0 group-hover:opacity-100" />
-                
-                {/* CTA button particles - static */}
-                {[...Array(2)].map((_, i) => (
-                  <div
-                    key={i}
-                    className="absolute w-1 h-1 bg-white/60 rounded-full opacity-30"
-                    style={{
-                      left: `${30 + (i * 40)}%`,
-                      top: `${40}%`,
-                    }}
-                  />
-                ))}
-                
-                <span className="relative z-10">Cotizar Proyecto</span>
-              </motion.div>
-            </Link>
           </div>
 
           {/* Mobile menu button */}
@@ -208,13 +199,10 @@ const Navbar = () => {
               onClick={() => setIsOpen(!isOpen)}
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
-              className="relative text-gray-300 hover:text-gold-400 transition-colors p-2"
+              className="relative text-rose-200 hover:text-rose-300 transition-colors p-2"
             >
-              {/* Menu button background effect - static */}
-              <div className="absolute inset-0 bg-gold-400/10 rounded-lg opacity-0 hover:opacity-100 transition-opacity duration-300" />
-              
-              {/* Menu button energy ring - static */}
-              <div className="absolute inset-0 rounded-lg border border-gold-400/30 opacity-0 hover:opacity-100 transition-opacity duration-300" />
+              <div className="absolute inset-0 bg-rose-400/10 rounded-lg opacity-0 hover:opacity-100 transition-opacity duration-300" />
+              <div className="absolute inset-0 rounded-lg border border-rose-400/30 opacity-0 hover:opacity-100 transition-opacity duration-300" />
               
               <motion.div
                 animate={isOpen ? { rotate: 180 } : { rotate: 0 }}
@@ -243,39 +231,31 @@ const Navbar = () => {
               transition: { duration: 0.3 }
             }
           }}
-          className="lg:hidden overflow-hidden bg-gray-900/95 backdrop-blur-lg border-t border-gold-500/20 relative"
+          className="lg:hidden overflow-hidden bg-gradient-to-br from-rose-900/95 to-pink-900/95 border-t border-rose-400/20 relative backdrop-blur-md"
         >
-          {/* Mobile menu background effects */}
+          {/* Mobile menu romantic effects */}
           <div className="absolute inset-0 pointer-events-none">
-            {/* Optimized mobile scanning lines - reduced from 6 to 3 */}
-            {[...Array(3)].map((_, i) => (
+            {[...Array(4)].map((_, i) => (
               <motion.div
                 key={i}
-                className="absolute w-full h-px bg-gradient-to-r from-transparent via-gold-400/30 to-transparent"
+                className="absolute"
                 style={{
-                  top: `${25 + (i * 25)}%`,
+                  left: `${20 + i * 20}%`,
+                  top: `${30 + i * 15}%`,
                 }}
                 animate={{
-                  scaleX: [0, 1, 0],
-                  opacity: [0, 0.6, 0],
+                  scale: [0.5, 1, 0.5],
+                  opacity: [0.2, 0.6, 0.2],
                 }}
                 transition={{
                   duration: 3,
                   repeat: Infinity,
-                  delay: i * 1,
-                  ease: "linear"
+                  delay: i * 0.5,
                 }}
-              />
+              >
+                <Heart className="w-2 h-2 text-rose-300/30 fill-rose-300/20" />
+              </motion.div>
             ))}
-            
-            {/* Mobile background glow */}
-            <motion.div
-              className="absolute inset-0 bg-gradient-to-br from-gold-400/5 to-transparent"
-              animate={{
-                opacity: [0.05, 0.15, 0.05],
-              }}
-              transition={{ duration: 3, repeat: Infinity }}
-            />
           </div>
           
           <div className="relative z-10 px-2 pt-2 pb-3 space-y-1">
@@ -287,44 +267,19 @@ const Navbar = () => {
                 transition={{ delay: index * 0.1 }}
                 whileHover={{ 
                   x: 5,
-                  backgroundColor: "rgba(245, 158, 11, 0.1)"
+                  backgroundColor: "rgba(244, 114, 182, 0.1)"
                 }}
                 className="relative"
               >
-                <Link
-                  to={item.href}
-                  className="block px-3 py-2 text-gray-300 hover:text-gold-400 font-medium transition-all duration-300 rounded-lg overflow-hidden"
-                  onClick={() => setIsOpen(false)}
+                <button
+                  onClick={() => scrollToSection(item.href)}
+                  className="block w-full text-left px-3 py-2 text-rose-200 hover:text-rose-300 font-medium transition-all duration-300 rounded-lg overflow-hidden"
                 >
-                  {/* Mobile nav item hover effect - static */}
-                  <div className="absolute left-0 top-0 w-1 h-full bg-gold-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                  
-                  {/* Mobile nav item particles - static */}
-                  <div className="absolute right-2 top-1/2 transform -translate-y-1/2 w-1 h-1 bg-gold-400/60 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                  
+                  <div className="absolute left-0 top-0 w-1 h-full bg-rose-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                   <span className="relative z-10">{item.name}</span>
-                </Link>
+                </button>
               </motion.div>
             ))}
-            
-            <Link to="/contacto">
-              <motion.div
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={isOpen ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.9 }}
-                transition={{ delay: 0.4 }}
-                whileHover={{ 
-                  scale: 1.02,
-                  boxShadow: "0 5px 15px rgba(245, 158, 11, 0.3)"
-                }}
-                className="block mx-3 mt-4 bg-gradient-to-r from-gold-500 to-gold-600 text-white px-6 py-2 rounded-full font-medium text-center overflow-hidden"
-                onClick={() => setIsOpen(false)}
-              >
-                {/* Mobile CTA background effect - static */}
-                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300" />
-                
-                <span className="relative z-10">Cotizar Proyecto</span>
-              </motion.div>
-            </Link>
           </div>
         </motion.div>
       </div>

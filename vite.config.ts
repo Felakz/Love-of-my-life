@@ -6,8 +6,23 @@ export default defineConfig({
   plugins: [react()],
   build: {
     outDir: 'dist',
+    sourcemap: false,
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          vendor: ['react', 'react-dom'],
+          router: ['react-router-dom'],
+          animations: ['framer-motion']
+        }
+      }
+    }
   },
   server: {
-    historyApiFallback: true,
+    port: 5173,
+    open: true,
   },
+  preview: {
+    port: 4173,
+    open: true,
+  }
 })

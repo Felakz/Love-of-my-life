@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion'
+import { Link } from 'react-router-dom'
 import { Monitor, Palette, Video, Eye, Settings, ArrowRight, Code2, Sparkles, Zap, Star, Cpu, Wifi } from 'lucide-react'
 
 const Services = () => {
@@ -128,8 +129,7 @@ const Services = () => {
         {/* Enhanced Header */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
+          animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           className="text-center mb-16 relative"
         >
@@ -190,7 +190,7 @@ const Services = () => {
           <motion.p 
             className="text-xl text-gray-600 max-w-3xl mx-auto relative"
             initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
+            animate={{ opacity: 1 }}
             transition={{ duration: 1, delay: 0.3 }}
           >
             <motion.span
@@ -247,8 +247,7 @@ const Services = () => {
         <motion.div
           variants={containerVariants}
           initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
+          animate="visible"
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
         >
           {services.map((service, index) => (
@@ -413,7 +412,7 @@ const Services = () => {
                     key={featureIndex} 
                     className="flex items-center text-sm text-gray-500 relative"
                     initial={{ x: -10, opacity: 0 }}
-                    whileInView={{ x: 0, opacity: 1 }}
+                    animate={{ x: 0, opacity: 1 }}
                     transition={{ delay: featureIndex * 0.1 }}
                     whileHover={{ x: 5, color: '#d97706' }}
                   >
@@ -500,8 +499,7 @@ const Services = () => {
         {/* Enhanced Bottom CTA */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
+          animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.4 }}
           className="text-center mt-16 relative"
         >
@@ -614,15 +612,15 @@ const Services = () => {
                 />
               </motion.p>
               
-              <motion.a
-                href="#contact"
-                whileHover={{ 
-                  scale: 1.05, 
-                  boxShadow: "0 0 40px rgba(251, 191, 36, 0.4)" 
-                }}
-                whileTap={{ scale: 0.95 }}
-                className="group relative inline-flex items-center bg-gradient-to-r from-gold-400 to-gold-600 text-white px-8 py-4 rounded-full font-semibold text-lg shadow-xl hover:shadow-2xl transition-all duration-300 overflow-hidden"
-              >
+              <Link to="/contacto">
+                <motion.div
+                  whileHover={{ 
+                    scale: 1.05, 
+                    boxShadow: "0 0 40px rgba(251, 191, 36, 0.4)" 
+                  }}
+                  whileTap={{ scale: 0.95 }}
+                  className="group relative inline-flex items-center bg-gradient-to-r from-gold-400 to-gold-600 text-white px-8 py-4 rounded-full font-semibold text-lg shadow-xl hover:shadow-2xl transition-all duration-300 overflow-hidden"
+                >
                 {/* Button effects */}
                 <motion.div
                   animate={{ x: ['-100%', '100%'] }}
@@ -661,7 +659,8 @@ const Services = () => {
                     <ArrowRight className="ml-2 w-5 h-5" />
                   </motion.div>
                 </span>
-              </motion.a>
+              </motion.div>
+              </Link>
             </div>
             
             {/* Corner decorations */}

@@ -1,5 +1,6 @@
 import React from 'react'
 import { motion } from 'framer-motion'
+import { Link } from 'react-router-dom'
 import { ExternalLink, Github, Sparkles, Zap, Star, Code2, Cpu, Wifi, Eye, Monitor } from 'lucide-react'
 
 const Portfolio = () => {
@@ -69,7 +70,7 @@ const Portfolio = () => {
   const categories = ['Todos', 'Desarrollo Web', 'Diseño Gráfico', 'Desarrollo Móvil', 'Producción Audiovisual', 'Marketing Digital']
   
   return (
-    <section id="portfolio" className="relative py-20 bg-gradient-to-br from-gray-900 via-gray-800 to-black overflow-hidden">
+    <section id="portfolio" className="relative py-20 bg-gray-900 min-h-screen overflow-visible">
       {/* Advanced Background Effects */}
       <div className="absolute inset-0">
         {/* Animated matrix-style background */}
@@ -167,12 +168,11 @@ const Portfolio = () => {
         />
       </div>
 
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-10">
         {/* Enhanced Header */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
+          animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           className="text-center mb-16 relative"
         >
@@ -369,17 +369,15 @@ const Portfolio = () => {
         {/* Projects Grid */}
         <motion.div
           initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
+          animate={{ opacity: 1 }}
           transition={{ duration: 0.8, delay: 0.2 }}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 relative z-10"
         >
           {projects.map((project, index) => (
             <motion.div
               key={project.id}
               initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
+              animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: index * 0.1 }}
               whileHover={{ 
                 y: -15,
@@ -588,8 +586,7 @@ const Portfolio = () => {
         {/* CTA */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
+          animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.4 }}
           className="relative text-center mt-16"
         >
@@ -635,15 +632,15 @@ const Portfolio = () => {
               ¿Te gustó lo que viste? Trabajemos juntos en tu próximo proyecto
             </motion.p>
             
-            <motion.a
-              href="#contact"
-              whileHover={{ 
-                scale: 1.05,
-                boxShadow: "0 20px 40px -12px rgba(245, 158, 11, 0.4)"
-              }}
-              whileTap={{ scale: 0.95 }}
-              className="relative inline-flex items-center bg-gradient-to-r from-gold-400 to-gold-600 text-white px-8 py-4 rounded-full font-semibold text-lg shadow-xl hover:shadow-2xl transition-all duration-300 overflow-hidden"
-            >
+            <Link to="/contacto">
+              <motion.div
+                whileHover={{ 
+                  scale: 1.05,
+                  boxShadow: "0 20px 40px -12px rgba(245, 158, 11, 0.4)"
+                }}
+                whileTap={{ scale: 0.95 }}
+                className="relative inline-flex items-center bg-gradient-to-r from-gold-400 to-gold-600 text-white px-8 py-4 rounded-full font-semibold text-lg shadow-xl hover:shadow-2xl transition-all duration-300 overflow-hidden"
+              >
               {/* Button energy effect */}
               <motion.div
                 className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent"
@@ -671,7 +668,8 @@ const Portfolio = () => {
               ))}
               
               <span className="relative z-10">Iniciar Proyecto</span>
-            </motion.a>
+            </motion.div>
+            </Link>
           </div>
         </motion.div>
       </div>
